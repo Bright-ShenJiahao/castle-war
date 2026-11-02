@@ -3,21 +3,35 @@
 <title>城堡战争（试做）</title>
 <style>
 html,body{margin:0;height:100%;background:#0d1612;color:#f2efe4;font-family:system-ui,"PingFang SC","Microsoft YaHei",sans-serif;overflow:hidden;user-select:none;touch-action:none}
-#cv{position:absolute;left:0;top:0;image-rendering:auto}
-#top{position:absolute;left:0;right:0;top:0;display:flex;gap:14px;align-items:center;padding:6px 12px;background:#0d1612cc;font-size:15px;z-index:2}
-#top b{color:#f3d27a}#top .r{margin-left:auto;color:#ffb3a0}
-#bar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:6px;padding:6px;background:#0d1612dd;overflow-x:auto;z-index:2}
+#cv{position:absolute;left:0;top:0}
+#top{position:absolute;left:0;right:0;top:0;display:flex;gap:14px;align-items:center;padding:6px 12px;background:#0d1612cc;font-size:15px;z-index:2;white-space:nowrap;overflow:hidden}
+#top b{color:#f3d27a}#top .r{margin-left:auto;color:#ffb3a0}#top .ot{color:#ff7a5a}
+#bar{position:absolute;left:0;right:0;bottom:0;display:flex;gap:6px;padding:6px;background:#0d1612dd;overflow-x:auto;z-index:2;align-items:stretch}
 #bar button{flex:none;min-width:74px;font:inherit;font-size:13px;line-height:1.3;padding:4px 8px;border-radius:6px;border:1px solid #5b6f63;background:#1d2b24;color:#f2efe4;cursor:pointer}
 #bar button img{display:block;height:28px;margin:0 auto 2px;image-rendering:pixelated}
 #bar button.on{background:#3c6d5c;border-color:#9fd3bd}
 #bar button:disabled{opacity:.45}
+#bar button.sk{border-color:#c9a0ff;background:#2a2140}
+#bar button.sk.on{background:#6a3fb0}
 #bar small{color:#f3d27a}
-#msg{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#000a;z-index:3;font-size:28px}
-#msg button{font:inherit;font-size:16px;padding:8px 22px;border-radius:6px;border:0;background:#3c6d5c;color:#fff}
+#bar .sep{flex:none;width:2px;background:#5b6f63;margin:0 4px}
+.ov{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#000b;z-index:3;text-align:center}
+.ov h2{margin:0;font-size:26px}.ov p{margin:0;color:#c8d4cc;max-width:560px;font-size:14px;line-height:1.6}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;padding:0 12px}
+.card{width:176px;min-height:150px;padding:12px;border-radius:10px;border:2px solid #7d8f84;background:#1d2b24;cursor:pointer;text-align:left}
+.card:hover{transform:translateY(-4px);border-color:#fff}
+.card .tag{font-size:12px;color:#f3d27a}.card b{display:block;font-size:18px;margin:4px 0 6px}.card span{font-size:13px;color:#d6e0da;line-height:1.5}
+.card.build{border-color:#6ab0e0}.card.enh{border-color:#e0b04a}.card.skill{border-color:#c9a0ff}
+.fac{width:240px}.fac.dark{border-color:#a070e0;background:#241a38}.fac.tribe{border-color:#7ab060}
+.btn{font:inherit;font-size:16px;padding:8px 22px;border-radius:6px;border:0;background:#3c6d5c;color:#fff;cursor:pointer}.btn:disabled{opacity:.4}
 </style></head><body>
 <canvas id="cv"></canvas>
-<div id="top"><span>金币 <b id="gold">0</b></span><span>收入 <b id="inc">0</b>/10秒</span><span id="tip">选建筑，再点左边的空格子</span><span class="r" id="ehp"></span></div>
+<div id="top"><span>金币 <b id="gold">0</b></span><span>收入 <b id="inc">0</b>/10秒</span><span id="clock">0:00</span><span id="tip"></span><span class="r" id="ehp"></span></div>
 <div id="bar"></div>
-<div id="msg"><div id="msgt"></div><button onclick="location.reload()">再来一局</button></div>
+<div class="ov" id="menu" style="display:flex"><h2>城堡战争</h2><p>造兵营，兵营自动出兵，推倒对方主堡。每局从零开始，靠抽到的卡搭配兵营和技能。选一个阵营；对手是另一个阵营。</p>
+<div class="row" id="facs"></div></div>
+<div class="ov" id="pick"><h2 id="pickt"></h2><div class="row" id="picks"></div><button class="btn" id="reroll"></button></div>
+<div class="ov" id="msg"><h2 id="msgt"></h2><button class="btn" onclick="location.reload()">再来一局</button></div>
+<script src="src/data.js"></script>
 <script src="src/castle.js"></script>
 </body></html>

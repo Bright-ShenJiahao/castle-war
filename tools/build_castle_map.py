@@ -3,11 +3,11 @@ import numpy as np
 from PIL import Image, ImageFilter, ImageDraw
 import os
 
-W, H, HD = 1200, 600, 2
+W, H, HD = 960, 540, 2
 DW, DH = W * HD, H * HD
-ROAD_Y = (110, 490)   # 上下大路中线（逻辑坐标）
-ROAD_W = 56
-SEA = (250, 180, 950, 420)  # 海（逻辑坐标，圆角）
+ROAD_Y = (88, 452)   # 上下大路中线（逻辑坐标）
+ROAD_W = 64
+SEA = (300, 175, 660, 365)  # 海（逻辑坐标，圆角）
 OUT = 'assets/castle'
 os.makedirs(OUT, exist_ok=True)
 
@@ -39,9 +39,9 @@ img = grass * (0.88 + 0.24 * noise)
 def roads(d):
     for y in ROAD_Y:
         d.rounded_rectangle([20 * HD, (y - ROAD_W / 2) * HD, (W - 20) * HD, (y + ROAD_W / 2) * HD], radius=ROAD_W * HD // 2, fill=255)
-    # 两侧基地前的竖向连接路
-    for x in (130, W - 130):
-        d.rounded_rectangle([(x - 22) * HD, ROAD_Y[0] * HD, (x + 22) * HD, ROAD_Y[1] * HD], radius=22 * HD, fill=200)
+    # 两侧基地：一块软边的建筑区空地
+    for cx in (130, W - 130):
+        d.rounded_rectangle([(cx - 120) * HD, 120 * HD, (cx + 120) * HD, (H - 120) * HD], radius=60 * HD, fill=150)
 rm = mask(roads, 14)
 lum = grass.mean(axis=2, keepdims=True)
 dirt = (lum - lum.mean()) * .8 + np.array([168, 140, 98])  # 暖土色，保留草纹的明暗
